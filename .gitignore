@@ -1,0 +1,17 @@
+# VS debugger (not part of nvim config)
+getvsdbg.sh
+vsdbg.tar.gz
+
+# Claude Code session files
+.claude/
+
+# macOS
+.DS_Store
+
+# Lazy.nvim compiled cache (local to each machine)
+plugin/
+
+# Neovim runtime state
+/swap/
+/backup/
+/undo/
