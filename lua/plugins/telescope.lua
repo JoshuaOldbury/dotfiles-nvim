@@ -53,6 +53,8 @@ return {
 						"%.pdb",
 						"%.dll",
 						"%.cache",
+						"package%-lock%.json",
+						"package%.json",
 					},
 				},
 				extensions = {
