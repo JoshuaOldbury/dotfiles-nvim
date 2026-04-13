@@ -1,7 +1,7 @@
 # Neovim Config
 
 A modular Neovim config built with Lazy.nvim.
-Optimized for Python, TypeScript/JavaScript, Go, and SQL development.
+Optimized for Python, TypeScript/JavaScript, Go, C#, C, Clojure, and SQL development.
 
 ## Directory Structure
 
@@ -16,13 +16,13 @@ Optimized for Python, TypeScript/JavaScript, Go, and SQL development.
     │   └── lazy.lua
     └── plugins/
         ├── colorscheme.lua   ← kanagawa (dragon variant)
-        ├── ui.lua            ← lualine, neo-tree, noice, bufferline, which-key, gitsigns
+        ├── ui.lua            ← lualine, neo-tree, bufferline, gitsigns, which-key
         ├── telescope.lua     ← fuzzy finder
         ├── treesitter.lua    ← syntax + textobjects
         ├── lsp.lua           ← mason + lspconfig (Python, JS/TS, Go, C#, Clojure, C, SQL, Lua)
         ├── completion.lua    ← nvim-cmp + luasnip
         ├── formatting.lua    ← conform (format) + nvim-lint (lint)
-        ├── debug.lua         ← nvim-dap + dap-ui (Python, JS/TS, Go)
+        ├── debug.lua         ← nvim-dap (placeholder)
         ├── database.lua      ← vim-dadbod + dadbod-ui
         ├── git.lua           ← neogit + diffview
         ├── terminal.lua      ← toggleterm (float, split, lazygit)
@@ -36,109 +36,197 @@ Optimized for Python, TypeScript/JavaScript, Go, and SQL development.
 # Back up existing config
 mv ~/.config/nvim ~/.config/nvim.bak
 
-# Copy this config
-cp -r /path/to/this/nvim ~/.config/nvim
+# Clone this config
+git clone https://github.com/JoshuaOldbury/dotfiles-nvim ~/.config/nvim
 
 # Launch nvim — lazy.nvim will auto-bootstrap and install all plugins
 nvim
 ```
 
-Mason will then automatically install all LSPs, formatters, linters,
-and debug adapters on first launch. Run `:Mason` to monitor progress.
+Mason will automatically install all LSPs, formatters, linters, and debug adapters on first launch.
+Run `:Mason` to monitor progress.
 
-## Key Bindings (Space as leader)
+---
 
-### Navigation
+## Key Bindings
+
+Leader key: `<Space>`  
+Local leader (Clojure/REPL): `\`
+
+### General
+
+| Key | Action |
+|-----|--------|
+| `<leader>w` | Save |
+| `<leader>q` | Quit |
+| `<leader>Q` | Quit all (force) |
+| `<Esc>` | Clear search highlight |
+
+### Movement
+
+| Key | Action |
+|-----|--------|
+| `j` / `k` | Move through wrapped lines |
+| `<C-d>` / `<C-u>` | Half-page scroll (cursor centred) |
+| `n` / `N` | Next/prev search result (centred) |
+
+### Windows
+
+| Key | Action |
+|-----|--------|
+| `<C-h>` | Move to left window |
+| `<C-j>` | Move to lower window |
+| `<C-k>` | Move to upper window |
+| `<C-l>` | Move to right window |
+| `<C-Up>` | Increase height |
+| `<C-Down>` | Decrease height |
+| `<C-Left>` | Decrease width |
+| `<C-Right>` | Increase width |
+
+### Buffers
+
+| Key | Action |
+|-----|--------|
+| `<S-h>` | Prev buffer |
+| `<S-l>` | Next buffer |
+| `<leader>bd` | Delete buffer |
+
+### Visual Mode
+
+| Key | Action |
+|-----|--------|
+| `<` / `>` | Indent/unindent (stay in visual) |
+| `J` | Move selected lines down |
+| `K` | Move selected lines up |
+| `p` | Paste without overwriting register |
+
+### Telescope (Fuzzy Finder)
+
 | Key | Action |
 |-----|--------|
 | `<leader>ff` | Find files |
 | `<leader>fg` | Live grep |
 | `<leader>fb` | Switch buffers |
+| `<leader>fh` | Help tags |
 | `<leader>fr` | Recent files |
-| `<leader>e`  | Toggle file tree |
-| `<S-h/l>`    | Prev/next buffer |
+| `<leader>fd` | Diagnostics |
 
-### LSP
+**Inside a Telescope picker:**
+
 | Key | Action |
 |-----|--------|
-| `gd`           | Go to definition |
-| `gr`           | References |
-| `K`            | Hover docs |
-| `<leader>rn`   | Rename |
-| `<leader>ca`   | Code action |
-| `<leader>lf`   | Format buffer |
-| `[d` / `]d`    | Prev/next diagnostic |
+| `<C-p>` / `<C-n>` | Move selection up/down |
+| `<C-q>` | Send selected to quickfix |
+| `<Esc>` | Close picker |
 
-### Git (Neogit)
+### File Tree (Neo-tree)
+
+| Key | Action |
+|-----|--------|
+| `<leader>e` | Toggle file tree |
+| `<leader>o` | Focus file tree |
+
+### LSP
+
+| Key | Action |
+|-----|--------|
+| `gd` | Go to definition |
+| `gD` | Go to declaration |
+| `gr` | References (Telescope) |
+| `gi` | Implementations (Telescope) |
+| `gt` | Type definition |
+| `K` | Hover docs |
+| `<C-s>` _(insert)_ | Signature help |
+| `<leader>rn` | Rename symbol |
+| `<leader>.` | Code action |
+| `<leader>ds` | Document symbols (Telescope) |
+| `<leader>ws` | Workspace symbols (Telescope) |
+| `<leader>lh` | Toggle inlay hints |
+| `<leader>lf` | Format buffer |
+| `<leader>gf` | Format buffer (alias) |
+| `<leader>li` | LSP info |
+| `<leader>lr` | Restart LSP |
+
+### Diagnostics
+
+| Key | Action |
+|-----|--------|
+| `[d` / `]d` | Prev/next diagnostic |
+| `<leader>d` | Show diagnostic float |
+
+### Git — Neogit
+
 | Key | Action |
 |-----|--------|
 | `<leader>gg` | Open Neogit |
 | `<leader>gc` | Commit |
 | `<leader>gP` | Push |
 | `<leader>gl` | Pull |
-| `<leader>gd` | Diffview |
-| `<leader>gh` | File history |
-| `<leader>gp` | Preview hunk (gitsigns) |
-| `<leader>gb` | Blame line (gitsigns) |
+| `<leader>gd` | Open Diffview |
+| `<leader>gD` | Close Diffview |
+| `<leader>gh` | Current file history |
+| `<leader>gH` | Branch history |
+
+### Git — Gitsigns (hunk-level)
+
+| Key | Action |
+|-----|--------|
+| `]h` / `[h` | Next/prev hunk |
+| `<leader>gp` | Preview hunk |
+| `<leader>gb` | Blame line |
+| `<leader>gr` | Reset hunk |
+| `<leader>gR` | Reset buffer |
 
 ### Terminal (toggleterm)
+
 | Key | Action |
 |-----|--------|
 | `<C-\>` | Toggle terminal |
-| `<leader>tf` | Float terminal |
+| `<leader>tf` | Float terminal ⚠️ |
 | `<leader>th` | Horizontal terminal |
 | `<leader>tv` | Vertical terminal |
 | `<leader>tg` | Lazygit |
-| `<Esc><Esc>` | Exit terminal mode |
+| `<Esc><Esc>` _(terminal)_ | Exit terminal mode |
+| `<C-h/j/k/l>` _(terminal)_ | Navigate windows from terminal |
+
+> ⚠️ `<leader>tf` conflicts with **Run file tests** (neotest). Whichever loads last wins — consider rebinding one.
 
 ### Testing (neotest)
+
 | Key | Action |
 |-----|--------|
 | `<leader>tt` | Run nearest test |
-| `<leader>tf` | Run file |
+| `<leader>tf` | Run file tests ⚠️ |
 | `<leader>tT` | Run all tests |
-| `<leader>ts` | Test summary |
-| `<leader>to` | Test output |
+| `<leader>ts` | Toggle test summary |
+| `<leader>to` | Toggle test output |
 | `<leader>td` | Debug nearest test |
 | `]t` / `[t` | Next/prev failed test |
 
-### Clojure (Conjure — `\\` localleader)
+> ⚠️ `<leader>tf` conflicts with **Float terminal** (toggleterm). See note above.
+
+### Database (vim-dadbod)
+
+| Key | Action |
+|-----|--------|
+| `<leader>db` | Toggle DB UI |
+| `<leader>da` | Add connection |
+
+### Clojure / REPL (Conjure — `\` localleader)
+
 | Key | Action |
 |-----|--------|
 | `\\e` | Eval current form |
 | `\\ee` | Eval outermost form |
 | `\\eb` | Eval buffer |
-| `\\lv` | Open log (vertical) |
+| `\\er` | Eval root form |
+| `\\lv` | Open log (vertical split) |
 | `\\lq` | Close log |
-| `\\rs` | Connect to nREPL |
+| `\\rs` | Connect to running nREPL |
 
+---
 
-| Key | Action |
-|-----|--------|
-| `<leader>db` | Toggle breakpoint |
-| `<leader>dc` | Continue |
-| `<leader>di` | Step into |
-| `<leader>do` | Step out |
-| `<leader>dO` | Step over |
-| `<leader>du` | Toggle DAP UI |
-
-### Database
-| Key | Action |
-|-----|--------|
-| `<leader>Db` | Toggle DB UI |
-| `<leader>Da` | Add connection |
-
-## Database Connections
-
-Connection URLs in vim-dadbod-ui (stored in `~/.local/share/nvim/db_ui`):
-
-```
-PostgreSQL  postgresql://user:pass@localhost:5432/dbname
-MySQL       mysql://user:pass@localhost:3306/dbname
-SQLite      sqlite:./relative/path/to/db.sqlite
-```
-
-## LSPs Installed via Mason
+## LSPs, Formatters & Linters
 
 | Language | LSP | Formatter | Linter |
 |----------|-----|-----------|--------|
@@ -148,12 +236,28 @@ SQLite      sqlite:./relative/path/to/db.sqlite
 | C# | omnisharp | — | — |
 | Clojure | clojure-lsp | — | — |
 | C | clangd | — | — |
-| SQL | sqlls | sqlfmt | — |
+| SQL | sqls | sqlfmt | — |
 | Lua | lua_ls | stylua | — |
+| JSON/YAML/MD | jsonls / yamlls | prettierd | — |
+| Shell | bashls | shfmt | — |
+
+Format-on-save is enabled for all filetypes except SQL.
+
+---
 
 ## Customization Tips
 
-- **Change colorscheme**: Edit `plugins/colorscheme.lua` — currently using `kanagawa-dragon`. Swap the plugin repo and `colorscheme` command for any other theme
-- **Add a language**: Add its LSP to `plugins/lsp.lua` `ensure_installed`, formatter to `plugins/formatting.lua`
-- **Disable format-on-save**: Remove `format_on_save` block in `plugins/formatting.lua`
-- **System clipboard**: Uncomment `opt.clipboard = "unnamedplus"` in `core/options.lua`
+- **Change colorscheme:** Edit `plugins/colorscheme.lua` — currently using `kanagawa-dragon`. Swap the plugin repo and `colorscheme` command for any other theme
+- **Add a language:** Add its LSP to `plugins/lsp.lua` `ensure_installed`, formatter to `plugins/formatting.lua`
+- **Disable format-on-save:** Remove the `format_on_save` block in `plugins/formatting.lua`
+- **Fix `<leader>tf` conflict:** Rebind either `toggleterm`'s float terminal or neotest's run-file key in their respective plugin files
+
+## Database Connections
+
+Connection URLs are stored in `~/.local/share/nvim/db_ui`. Example formats:
+
+```
+PostgreSQL  postgresql://user:pass@localhost:5432/dbname
+MySQL       mysql://user:pass@localhost:3306/dbname
+SQLite      sqlite:./relative/path/to/db.sqlite
+```
