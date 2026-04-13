@@ -182,28 +182,24 @@ Local leader (Clojure/REPL): `\`
 | Key | Action |
 |-----|--------|
 | `<C-\>` | Toggle terminal |
-| `<leader>tf` | Float terminal ⚠️ |
+| `<leader>tf` | Float terminal |
 | `<leader>th` | Horizontal terminal |
 | `<leader>tv` | Vertical terminal |
 | `<leader>tg` | Lazygit |
 | `<Esc><Esc>` _(terminal)_ | Exit terminal mode |
 | `<C-h/j/k/l>` _(terminal)_ | Navigate windows from terminal |
 
-> ⚠️ `<leader>tf` conflicts with **Run file tests** (neotest). Whichever loads last wins — consider rebinding one.
-
 ### Testing (neotest)
 
 | Key | Action |
 |-----|--------|
 | `<leader>tt` | Run nearest test |
-| `<leader>tf` | Run file tests ⚠️ |
+| `<leader>tF` | Run file tests |
 | `<leader>tT` | Run all tests |
 | `<leader>ts` | Toggle test summary |
 | `<leader>to` | Toggle test output |
 | `<leader>td` | Debug nearest test |
 | `]t` / `[t` | Next/prev failed test |
-
-> ⚠️ `<leader>tf` conflicts with **Float terminal** (toggleterm). See note above.
 
 ### Database (vim-dadbod)
 
@@ -250,8 +246,6 @@ Format-on-save is enabled for all filetypes except SQL.
 - **Change colorscheme:** Edit `plugins/colorscheme.lua` — currently using `kanagawa-dragon`. Swap the plugin repo and `colorscheme` command for any other theme
 - **Add a language:** Add its LSP to `plugins/lsp.lua` `ensure_installed`, formatter to `plugins/formatting.lua`
 - **Disable format-on-save:** Remove the `format_on_save` block in `plugins/formatting.lua`
-- **Fix `<leader>tf` conflict:** Rebind either `toggleterm`'s float terminal or neotest's run-file key in their respective plugin files
-
 ## Database Connections
 
 Connection URLs are stored in `~/.local/share/nvim/db_ui`. Example formats:

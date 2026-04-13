@@ -21,7 +21,7 @@ return {
 				desc = "Run nearest test",
 			},
 			{
-				"<leader>tf",
+				"<leader>tF",
 				function()
 					require("neotest").run.run(vim.fn.expand("%"))
 				end,
